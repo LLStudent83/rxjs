@@ -1,5 +1,5 @@
 import {
-  Observable, catchError, switchMap, of, interval, map,
+  catchError, switchMap, of, interval,
 } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 // import { switchMap } from 'rxjs/operators';
