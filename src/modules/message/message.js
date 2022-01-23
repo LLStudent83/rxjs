@@ -1,5 +1,8 @@
-import { Observable, catchError } from 'rxjs';
+import {
+  Observable, catchError, switchMap, of, interval, map,
+} from 'rxjs';
 import { ajax } from 'rxjs/ajax';
+// import { switchMap } from 'rxjs/operators';
 
 export default class Message {
   constructor() {
@@ -14,17 +17,16 @@ export default class Message {
       messages: [],
     };
 
-    ajax.getJSON('http://localhost:888/').pipe(catchError((error) => {
+    const strim$ = interval(2000).pipe(switchMap(() => ajax.getJSON('http://localhost:8888/')))
+      .pipe(
+        catchError(() => of(this.objMess)),
+
+      );
+    strim$.subscribe({
+      next: (value) => this.createMessage(value),
       // eslint-disable-next-line no-console
-      console.log('error', error);
-      // eslint-disable-next-line no-new
-      new Observable((observer) => observer.next(this.objMess));
-    }))
-      .subscribe({
-        next: (value) => this.createMessage(value),
-        // eslint-disable-next-line no-console
-        error: (error) => console.log('error', error),
-      });
+      error: (error) => console.log('error', error),
+    });
   }
 
   createMessage(value) {
