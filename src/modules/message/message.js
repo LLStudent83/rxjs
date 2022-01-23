@@ -16,8 +16,8 @@ export default class Message {
       timestamp: 1553400000,
       messages: [],
     };
-
-    const strim$ = interval(2000).pipe(switchMap(() => ajax.getJSON('http://localhost:8888/')))
+    const strim$ = interval(4000)
+      .pipe(switchMap(() => ajax.getJSON('https://rxjs-server.herokuapp.com/')))
       .pipe(
         catchError(() => of(this.objMess)),
 
